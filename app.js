@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Table = require('./table');
 
-const dbURI = "mongodb+srv://qnjstudio:oTtdDhR1efNstp3u@main.hi4w6.mongodb.net/maindb?retryWrites=true&w=majority";
+const dbURI = "Hidden";
 
 const app = express(); // Our App
 const port = process.env.PORT || 3000;
