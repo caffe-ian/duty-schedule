@@ -1,5 +1,49 @@
 const students = [
-  "06 Chock Qi Jun"
+  "01 Ashley Laurent Tan",
+  "02 Ashley Loo Sze Qi",
+  "03 Brendan Lok",
+  "04 Cheah Yi Jing",
+  "05 Chee Anh Tsuen",
+  "06 Cheong Zheng Hong",
+  "07 Cheu Qi Wen",
+  "08 Chin Yi Hang",
+  "09 Chin Ying Kai",
+  "11 Chong Jia Min",
+  "12 Chong Jun Bang",
+  "13 Chong Ser Han",
+  "14 Choong Min Yi Alyson",
+  "15 Chu Yan Fong",
+  "17 Esther Hong Yie En",
+  "18 Gan Jin Xuan",
+  "19 Goh Zhong Xuen",
+  "20 Jayden Wong Zheng Yao",
+  "21 John Lim Qi Yi",
+  "22 Khoo Jing Yao",
+  "23 Koo Kai Yuan",
+  "24 Kyle Saw Kai Ler",
+  "25 Lai Ern Ting",
+  "26 Lee Bowie",
+  "27 Lee Jia Yi",
+  "28 Lew Rui Thong",
+  "29 Lim Jia Le",
+  "30 Lim Jia Shen",
+  "31 Lim Yu Guang",
+  "32 Low Park Lam",
+  "33 Low Ting Xuan",
+  "34 Na Yunn Qii",
+  "35 Naa Kai Yan",
+  "36 Nee Jia Hui",
+  "37 Ooi Kah Jun",
+  "38 Pang Chang Loong",
+  "39 Phua Chuen Wen",
+  "40 Poong Zhi Yong",
+  "41 Rohan Kee Zhong Ren",
+  "42 Sean Yap Jun Hong",
+  "43 Tan Shu Xuan",
+  "44 Tan Wai Keat",
+  "45 Teo Zhi Hao",
+  "46 Teoh Ginny",
+  "47 Yap Huan Yuan"
 ];
 const socket = io();
 
@@ -86,7 +130,7 @@ function enter() {
 }
 
 function pick(pos) {
-  if (Math.floor(Date.now() / 1000) < 1654228800) {
+  if (Math.floor(Date.now() / 1000) < cdtime) {
     alert("Nice try, the countdown isn't over yet");
     return;
   }
@@ -103,7 +147,7 @@ function pick(pos) {
 countdown();
 
 function countdown() {
-  let time = 1654228800 - Math.floor(Date.now() / 1000);
+  let time = cdtime - Math.floor(Date.now() / 1000);
   if (time > 0) {
     document.getElementById("countdown").style.opacity = 1;
     document.getElementById("countdown-title").style.opacity = 1;

@@ -2,14 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Table = require('./table');
 
-const dbURI = "mongodb+srv://qnjstudio:Zh8xuosv6IviRUof@main.hi4w6.mongodb.net/maindb?retryWrites=true&w=majority";
+const dbURI = "mongodb+srv://qnjstudio:oTtdDhR1efNstp3u@main.hi4w6.mongodb.net/maindb?retryWrites=true&w=majority";
 
 const app = express(); // Our App
 const port = process.env.PORT || 3000;
 
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
-const dispatcher = {"0": "monday", "1": "tuesday", "2": "wednesday", "3": "thursday"};
+const dispatcher = {"0": "monday", "1": "tuesday", "2": "wednesday", "3": "thursday", "4": "friday", "5": "saturday"};
+const cdtime = 1673086300;
 
 app.set('view engine', 'ejs');
 app.set('views', './');
@@ -38,19 +39,21 @@ process.on('uncaughtException', (err) => {
 });
 
 app.get('/', async (request, response) => {
-  let table = (await Table.findOne({"id": "table"})).data;
-  response.render('index', {"tabledata": JSON.stringify(table)});
+  let table = (await Table.findOne({"id": "table1"})).data;
+  response.render('index', {"tabledata": JSON.stringify(table), "cdtime": cdtime});
 });
 
 app.post('/pick', async (request, response) => {
-  if (Math.floor(Date.now() / 1000) < 1654228800) {
+  if (Math.floor(Date.now() / 1000) < cdtime) {
     response.send({msg: "Nice try, the countdown isn't over yet"});
     return;
   }
   let row = dispatcher[request.body.pos.slice(0, 1)];
   let col = request.body.pos.slice(1, 2);
-  let table = (await Table.findOne({"id": "table"})).data;
+  const Table = require('./table');
+  let table = (await Table.findOne({"id": "table1"})).data;
   if (table[row][col] != "") {
+    console.log(table[row][col])
     response.send({msg: "This duty has already been picked!"});
     return;
   }
@@ -63,7 +66,7 @@ app.post('/pick', async (request, response) => {
       if (cols == request.body.name) {
         let data = `data.${row}.${col}`;
         let data1 = `data.${rows1}.${cols1}`;
-        let result = await Table.updateOne({"id": "table"}, {$set: {[data1]: "", [data]: request.body.name}});
+        let result = await Table.updateOne({"id": "table1"}, {$set: {[data1]: "", [data]: request.body.name}});
         if (result.acknowledged == true) {
           response.send({msg: "You have successfully picked this duty!"});
           io.sockets.emit("pickUpdate2", request.body.pos + request.body.name);
@@ -76,7 +79,7 @@ app.post('/pick', async (request, response) => {
     }
   }
   let data = `data.${row}.${col}`;
-  let result = await Table.updateOne({"id": "table", [data]: ""}, {$set: {[data]: request.body.name}});
+  let result = await Table.updateOne({"id": "table1", [data]: ""}, {$set: {[data]: request.body.name}});
   if (result.acknowledged == true) {
     response.send({msg: "You have successfully picked this duty!"});
     io.sockets.emit("pickUpdate", request.body.pos + request.body.name);
